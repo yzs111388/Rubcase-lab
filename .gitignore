@@ -15,3 +15,6 @@ core.*
 
 # editor
 .vscode/
+
+*.swp
+*.swo
