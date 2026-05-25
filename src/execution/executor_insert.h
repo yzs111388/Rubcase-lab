@@ -14,6 +14,7 @@ See the Mulan PSL v2 for more details. */
 #include "executor_abstract.h"
 #include "index/ix.h"
 #include "system/sm.h"
+#include "transaction/txn_defs.h"
 
 class InsertExecutor : public AbstractExecutor {
    private:
@@ -49,13 +50,13 @@ class InsertExecutor : public AbstractExecutor {
             val.init_raw(col.len);
             memcpy(rec.data + col.offset, val.raw->data, col.len);
         }
-        if (context_ && context_->lock_mgr_ && context_->txn_) {
-            context_->lock_mgr_->lock_exclusive_on_table(context_->txn_, fh_->GetFd());
-        }
         // Insert into record file
         rid_ = fh_->insert_record(rec.data, context_);
-        if (context_ && context_->txn_) {
-            context_->txn_->append_write_record(new WriteRecord(WType::INSERT_TUPLE, tab_name_, rid_));
+
+        // Write Record for Rollback
+        if (context_ != nullptr) {
+            WriteRecord *write_record = new WriteRecord(WType::INSERT_TUPLE, tab_name_, rid_);
+            context_->txn_->append_write_record(write_record);
         }
         
         // Insert into index
@@ -68,8 +69,7 @@ class InsertExecutor : public AbstractExecutor {
                 memcpy(key + offset, rec.data + index.cols[i].offset, index.cols[i].len);
                 offset += index.cols[i].len;
             }
-            ih->insert_entry(key, rid_, context_ ? context_->txn_ : nullptr);
-            delete[] key;
+            ih->insert_entry(key, rid_, context_->txn_);
         }
         return nullptr;
     }

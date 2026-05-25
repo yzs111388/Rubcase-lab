@@ -42,7 +42,7 @@ def run():
         os.system("./bin/rmdb " + database_name + "&")
         # ./bin/query_test ../src/test/query_test/aggregate_test.sql
         # The server takes a few seconds to establish the connection, so the client should wait for a while.
-        time.sleep(3)
+        time.sleep(20)
         ret = os.system("./bin/query_test " + test_file)
         if(ret != 0):
             print("Error. Stopping")

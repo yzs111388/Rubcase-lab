@@ -12,9 +12,8 @@ set(CMAKE_CXX_FLAGS "-Wall -O0 -g -ggdb3")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0 -g")
 
-
 enable_testing()
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/deps/googletest/CMakeLists.txt)
-    add_subdirectory(deps)
-endif()
 add_subdirectory(src)
+add_subdirectory(deps)
+
+

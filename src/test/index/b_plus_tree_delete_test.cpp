@@ -6,6 +6,8 @@
 
 #define private public
 #include "index/ix.h"
+
+
 #undef private  // for use private variables in "ix.h"
 
 #include "storage/buffer_pool_manager.h"
@@ -453,6 +455,7 @@ TEST_F(BPlusTreeTests, LargeScaleTest) {
         if (mock.empty() || dice < insert_prob) {
             // Insert
             int rand_key = rand() % scale;
+  
             if (mock.find(rand_key) != mock.end()) {  // 防止插入重复的key
                 // printf("重复key=%d!\n", rand_key);
                 continue;
@@ -471,6 +474,7 @@ TEST_F(BPlusTreeTests, LargeScaleTest) {
                 continue;
             }
             int rand_idx = rand() % mock.size();
+      
             auto it = mock.begin();
             for (int k = 0; k < rand_idx; k++) {
                 it++;

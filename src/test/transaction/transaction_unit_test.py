@@ -48,7 +48,7 @@ def run_test(test_case):
     os.system("./bin/rmdb " + database_name + " &")
     # ./bin/transaction_test ../src/test/transaction_test/commit_test.sql
     # The server takes a few seconds to establish the connection, so the client should wait for a while.
-    time.sleep(3)
+    time.sleep(20)
     ret = os.system("./bin/transaction_test " + test_file)
     if(ret != 0):
         print("Error. Stopping")

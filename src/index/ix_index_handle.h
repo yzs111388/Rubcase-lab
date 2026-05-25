@@ -179,7 +179,7 @@ class IxIndexHandle {
                                                  bool find_first = false);
 
     // for insert
-    page_id_t insert_entry(const char *key, const Rid &value, Transaction *transaction);
+    bool insert_entry(const char *key, const Rid &value, Transaction *transaction);
 
     IxNodeHandle *split(IxNodeHandle *node);
 

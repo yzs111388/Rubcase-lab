@@ -180,10 +180,10 @@ void *client_handler(void *sock_fd) {
             break;
         }
         // 如果是单条语句，需要按照一个完整的事务来执行，所以执行完当前语句后，自动提交事务
-        if(context->txn_ != nullptr && context->txn_->get_txn_mode() == false)
-        {
-            txn_manager->commit(context->txn_, context->log_mgr_);
-        }
+         if(context->txn_->get_txn_mode() == false)
+         {
+             txn_manager->commit(context->txn_, context->log_mgr_);
+         }
     }
 
     // Clear
